@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Me or You? 💖</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #ffdee9, #fff1f7);
+  min-height: 100vh;
+  text-align: center;
+  overflow-x: hidden;
+  padding: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+h1, h2 {
+  color: #ff4f81;
+}
+
+#question {
+  font-size: 22px;
+  margin: 30px 10px;
+}
+
+.buttons button,
+.yes,
+.no {
+  padding: 14px 26px;
+  margin: 12px;
+  font-size: 18px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+}
+
+.buttons button {
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.yes {
+  background: hotpink;
+  color: white;
+}
+
+.no {
+  background: #ccc;
+  color: #444;
+  position: absolute;
+}
+
+/* Heart confetti */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 22px;
+  animation: floatUp 3.5s linear forwards;
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+
+/* Mobile extra cute */
+@media (max-width: 600px) {
+  #question {
+    font-size: 20px;
+  }
+
+  button {
+    width: 80%;
+    max-width: 260px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- QUIZ -->
+<div id="quiz">
+  <h1>Me or You? 💘</h1>
+  <div id="question"></div>
+  <div class="buttons">
+    <button onclick="answer()">Me 😌</button>
+    <button onclick="answer()">You 😎</button>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div id="final" class="hidden">
+  <h2>Will you be my Valentine? 💖</h2>
+  <button class="yes" onclick="sayYes()">YES 💘</button>
+  <button class="no" id="noBtn">NO 🙃</button>
+</div>
+
+<!-- YES SCREEN -->
+<div id="yesScreen" class="hidden">
+  <h2>Correct choice 😌💞</h2>
+  <p>The system has already decided.</p>
+  <p>Happy Valentine’s Day 💖</p>
+</div>
+
+<script>
+const questions = [
+  "🍔 Who eats faster?",
+  "😴 Who naps for ‘just 10 minutes’ and wakes up after an hour?",
+  "🧟 Who would survive longer in a zombie apocalypse?",
+  "💬 Who apologizes first after a fight?",
+  "📱 Who is worse at replying on time?",
+  "📅 Who plans dates in an instant?",
+  "💭 Who remembers every little detail about our first date?",
+  "🥺 Who cries more when we say goodbye for a while?",
+  "😈 Who drives the other crazier (in a good way)?",
+  "💖 Who is luckier to have the other?"
+];
+
+let current = 0;
+
+function showQuestion() {
+  document.getElementById("question").innerText = questions[current];
+}
+
+showQuestion();
+
+function answer() {
+  current++;
+  if (current < questions.length) {
+    showQuestion();
+  } else {
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("final").classList.remove("hidden");
+  }
+}
+
+/* HARD-TO-PRESS NO BUTTON */
+const noBtn = document.getElementById("noBtn");
+
+function moveNo() {
+  const x = Math.random() * (window.innerWidth - 150);
+  const y = Math.random() * (window.innerHeight - 150);
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("click", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+/* YES = LOTS OF HEART CONFETTI */
+function sayYes() {
+  document.getElementById("final").classList.add("hidden");
+  document.getElementById("yesScreen").classList.remove("hidden");
+
+  for (let i = 0; i < 70; i++) {
+    createHeart();
+  }
+}
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = ["💖","💘","💕","💗","💓"][Math.floor(Math.random()*5)];
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = Math.random() * 20 + 16 + "px";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 3500);
+}
+</script>
+
+</body>
+</html>
